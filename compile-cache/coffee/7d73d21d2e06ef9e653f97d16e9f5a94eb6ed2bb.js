@@ -1,0 +1,35 @@
+(function() {
+  var AtomicChrome, CompositeDisposable, Server, WSHandler, WS_PORT;
+
+  CompositeDisposable = require('atom').CompositeDisposable;
+
+  Server = require('ws').Server;
+
+  WSHandler = require('./ws-handler');
+
+  WS_PORT = 64292;
+
+  module.exports = AtomicChrome = {
+    activate: function(state) {
+      this.wss = new Server({
+        port: WS_PORT
+      });
+      this.wss.on('connection', function(ws) {
+        return new WSHandler(ws);
+      });
+      return this.wss.on('error', function(err) {
+        if (err.code !== 'EADDRINUSE') {
+          return console.error(err);
+        }
+      });
+    },
+    deactivate: function() {
+      return this.wss.close();
+    }
+  };
+
+}).call(this);
+
+//# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAiZmlsZSI6ICIiLAogICJzb3VyY2VSb290IjogIiIsCiAgInNvdXJjZXMiOiBbCiAgICAiL1VzZXJzL3ZpdGFtaW5hZnJvbnQvLmF0b20vcGFja2FnZXMvYXRvbWljLWNocm9tZS9saWIvYXRvbWljLWNocm9tZS5jb2ZmZWUiCiAgXSwKICAibmFtZXMiOiBbXSwKICAibWFwcGluZ3MiOiAiQUFBQTtBQUFBLE1BQUEsNkRBQUE7O0FBQUEsRUFBQyxzQkFBdUIsT0FBQSxDQUFRLE1BQVIsRUFBdkIsbUJBQUQsQ0FBQTs7QUFBQSxFQUNDLFNBQXVCLE9BQUEsQ0FBUSxJQUFSLEVBQXZCLE1BREQsQ0FBQTs7QUFBQSxFQUdBLFNBQUEsR0FBd0IsT0FBQSxDQUFRLGNBQVIsQ0FIeEIsQ0FBQTs7QUFBQSxFQUtBLE9BQUEsR0FBVSxLQUxWLENBQUE7O0FBQUEsRUFPQSxNQUFNLENBQUMsT0FBUCxHQUFpQixZQUFBLEdBQ2Y7QUFBQSxJQUFBLFFBQUEsRUFBVSxTQUFDLEtBQUQsR0FBQTtBQUNSLE1BQUEsSUFBQyxDQUFBLEdBQUQsR0FBVyxJQUFBLE1BQUEsQ0FBTztBQUFBLFFBQUMsSUFBQSxFQUFNLE9BQVA7T0FBUCxDQUFYLENBQUE7QUFBQSxNQUVBLElBQUMsQ0FBQSxHQUFHLENBQUMsRUFBTCxDQUFRLFlBQVIsRUFBc0IsU0FBQyxFQUFELEdBQUE7ZUFDaEIsSUFBQSxTQUFBLENBQVUsRUFBVixFQURnQjtNQUFBLENBQXRCLENBRkEsQ0FBQTthQUlBLElBQUMsQ0FBQSxHQUFHLENBQUMsRUFBTCxDQUFRLE9BQVIsRUFBaUIsU0FBQyxHQUFELEdBQUE7QUFDZixRQUFBLElBQTBCLEdBQUcsQ0FBQyxJQUFKLEtBQVksWUFBdEM7aUJBQUEsT0FBTyxDQUFDLEtBQVIsQ0FBYyxHQUFkLEVBQUE7U0FEZTtNQUFBLENBQWpCLEVBTFE7SUFBQSxDQUFWO0FBQUEsSUFRQSxVQUFBLEVBQVksU0FBQSxHQUFBO2FBQ1YsSUFBQyxDQUFBLEdBQUcsQ0FBQyxLQUFMLENBQUEsRUFEVTtJQUFBLENBUlo7R0FSRixDQUFBO0FBQUEiCn0=
+
+//# sourceURL=/Users/vitaminafront/.atom/packages/atomic-chrome/lib/atomic-chrome.coffee

@@ -1,0 +1,40 @@
+{
+  "name": "rainbow-tabs",
+  "main": "./lib/rainbow-tabs",
+  "version": "2.2.1",
+  "description": "Adds color to the text of atom tabs, according to file extension (e.g. JS tabs are yellow)",
+  "keywords": [
+    "tabs",
+    "color",
+    "extension"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/graemeboy/rainbow-tabs.git"
+  },
+  "license": "MIT",
+  "engines": {
+    "atom": ">=1.0.0 <2.0.0"
+  },
+  "dependencies": {},
+  "readme": "# Rainbow Tabs: An Atom Package\n\nAdds color the text of atom tabs, according to file extension.\n\n![A screenshot of rainbow extensions](https://raw.githubusercontent.com/graemeboy/rainbow-tabs/master/resources/screenshot1.png)\n\nIf you want more extensions supported, or want to override any of the current colors, please feel free to make a pull request.\n",
+  "readmeFilename": "README.md",
+  "bugs": {
+    "url": "https://github.com/graemeboy/rainbow-tabs/issues"
+  },
+  "homepage": "https://github.com/graemeboy/rainbow-tabs#readme",
+  "_id": "rainbow-tabs@2.2.1",
+  "_shasum": "3b61703931cb7767d5c82d119c579a6c8c1eede8",
+  "_resolved": "file:../d-116329-3939-fl4nn8/package.tgz",
+  "_from": "../d-116329-3939-fl4nn8/package.tgz",
+  "_atomModuleCache": {
+    "version": 1,
+    "dependencies": [],
+    "extensions": {
+      ".json": [
+        "package.json"
+      ]
+    },
+    "folders": []
+  }
+}

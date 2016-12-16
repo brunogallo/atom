@@ -1,0 +1,142 @@
+{
+  "name": "atomic-chrome",
+  "main": "./lib/atomic-chrome",
+  "version": "0.3.0",
+  "description": "Edit Chrome text directly from Atom",
+  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tuvistavie/atomic-chrome-atom.git"
+  },
+  "license": "MIT",
+  "engines": {
+    "atom": ">=1.0.0 <2.0.0"
+  },
+  "dependencies": {
+    "temp": "^0.8.3",
+    "ws": "^1.0.1"
+  },
+  "readme": "# Atomic Chrome\n\n## Use Atom to edit in Chrome\n\n![atom-icon](https://cloud.githubusercontent.com/assets/1436271/12668235/c228c514-c697-11e5-8cea-e71acabcd300.png)\n![plus-icon](https://cloud.githubusercontent.com/assets/1436271/12668237/c23ab44a-c697-11e5-9076-50b70a1c3be7.png)\n![chrome-icon](https://cloud.githubusercontent.com/assets/1436271/12668236/c233a4c0-c697-11e5-8bba-882291db3f65.png)\n\n## Screencast\n\n### Github issue (textarea)\n\n![github](https://cloud.githubusercontent.com/assets/1436271/12668227/afee6a52-c697-11e5-9b19-c880a0e54132.gif)\n\n### Gmail (contenteditable)\n\n![gmail](https://cloud.githubusercontent.com/assets/1436271/12668226/afe32e26-c697-11e5-9814-2158e665f774.gif)\n\n## Installation\n\nYou need to install\n\n* [The Chrome Plugin](https://chrome.google.com/webstore/detail/atomic-chrome/lhaoghhllmiaaagaffababmkdllgfcmc) (Atomic Chrome from the Chrome Store)\n* [The Atom package](https://atom.io/packages/atomic-chrome) (`atomic-chrome` from apm)\n\n## Usage\n\nAtom needs to be running for this to work.\n\n1. Focus a textarea or a contenteditable element\n2. Press the icon of Atomic Chrome (or the shortcut).\n\nNote that the tab will open in the first launched instance of Atom.\n\n### How do I bind a shortcut\n\n1. Navigate to `chrome://extensions`\n2. Scroll to the bottom of the page\n3. Press 'Keyboard shortcuts'\n4. Set a shortcut for Atomic Chrome\n\n## Development\n\nThis repository is for the Atom plugin development.\nFor the Chrome plugin development, see https://github.com/tuvistavie/atomic-chrome.\nContributions are welcome.\n",
+  "readmeFilename": "README.md",
+  "bugs": {
+    "url": "https://github.com/tuvistavie/atomic-chrome-atom/issues"
+  },
+  "homepage": "https://github.com/tuvistavie/atomic-chrome-atom#readme",
+  "_id": "atomic-chrome@0.3.0",
+  "_shasum": "235ad83986812fbfe7720a5d5757752576f08eda",
+  "_resolved": "file:../d-116329-4030-1hkzpcm/package.tgz",
+  "_from": "../d-116329-4030-1hkzpcm/package.tgz",
+  "_atomModuleCache": {
+    "version": 1,
+    "dependencies": [
+      {
+        "name": "temp",
+        "version": "0.8.3",
+        "path": "node_modules/temp/lib/temp.js"
+      },
+      {
+        "name": "os-tmpdir",
+        "version": "1.0.1",
+        "path": "node_modules/temp/node_modules/os-tmpdir/index.js"
+      },
+      {
+        "name": "rimraf",
+        "version": "2.2.8",
+        "path": "node_modules/temp/node_modules/rimraf/rimraf.js"
+      },
+      {
+        "name": "ws",
+        "version": "1.1.0",
+        "path": "node_modules/ws/index.js"
+      },
+      {
+        "name": "options",
+        "version": "0.0.6",
+        "path": "node_modules/ws/node_modules/options/lib/options.js"
+      },
+      {
+        "name": "ultron",
+        "version": "1.0.2",
+        "path": "node_modules/ws/node_modules/ultron/index.js"
+      }
+    ],
+    "extensions": {
+      ".coffee": [
+        "lib/atomic-chrome.coffee",
+        "lib/ws-handler.coffee"
+      ],
+      ".js": [
+        "node_modules/temp/examples/grepcount.js",
+        "node_modules/temp/examples/pdfcreator.js",
+        "node_modules/temp/lib/temp.js",
+        "node_modules/temp/no_cleanup.js",
+        "node_modules/temp/no_cleanup_on_exit.js",
+        "node_modules/temp/no_cleanup_on_exit.spec.js",
+        "node_modules/temp/node_modules/os-tmpdir/index.js",
+        "node_modules/temp/node_modules/rimraf/bin.js",
+        "node_modules/temp/node_modules/rimraf/rimraf.js",
+        "node_modules/ws/index.js",
+        "node_modules/ws/lib/BufferPool.js",
+        "node_modules/ws/lib/BufferUtil.fallback.js",
+        "node_modules/ws/lib/BufferUtil.js",
+        "node_modules/ws/lib/ErrorCodes.js",
+        "node_modules/ws/lib/Extensions.js",
+        "node_modules/ws/lib/PerMessageDeflate.js",
+        "node_modules/ws/lib/Receiver.hixie.js",
+        "node_modules/ws/lib/Receiver.js",
+        "node_modules/ws/lib/Sender.hixie.js",
+        "node_modules/ws/lib/Sender.js",
+        "node_modules/ws/lib/Validation.fallback.js",
+        "node_modules/ws/lib/Validation.js",
+        "node_modules/ws/lib/WebSocket.js",
+        "node_modules/ws/lib/WebSocketServer.js",
+        "node_modules/ws/node_modules/options/lib/options.js",
+        "node_modules/ws/node_modules/ultron/index.js",
+        "node_modules/ws/node_modules/ultron/test.js"
+      ],
+      ".json": [
+        "node_modules/temp/node_modules/os-tmpdir/package.json",
+        "node_modules/temp/node_modules/rimraf/package.json",
+        "node_modules/temp/package.json",
+        "node_modules/ws/node_modules/options/package.json",
+        "node_modules/ws/node_modules/ultron/package.json",
+        "node_modules/ws/package.json",
+        "package.json"
+      ]
+    },
+    "folders": [
+      {
+        "paths": [
+          "lib",
+          ""
+        ],
+        "dependencies": {
+          "temp": "^0.8.3",
+          "ws": "^1.0.1"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/temp/examples",
+          "node_modules/temp/lib",
+          "node_modules/temp",
+          "node_modules/temp/test"
+        ],
+        "dependencies": {
+          "os-tmpdir": "^1.0.0",
+          "rimraf": "~2.2.6"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/ws",
+          "node_modules/ws/lib"
+        ],
+        "dependencies": {
+          "options": ">=0.0.5",
+          "ultron": "1.0.x"
+        }
+      }
+    ]
+  }
+}

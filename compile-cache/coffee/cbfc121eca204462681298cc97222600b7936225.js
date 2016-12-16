@@ -1,0 +1,129 @@
+(function() {
+  var $, TextEditorView, View, _, _ref;
+
+  _ref = require("atom-space-pen-views"), $ = _ref.$, TextEditorView = _ref.TextEditorView, View = _ref.View;
+
+  _ = require("underscore-plus");
+
+  module.exports = {
+    config: {
+      fillColorAsBackground: {
+        type: 'boolean',
+        "default": true
+      }
+    },
+    parseColor: function(color) {
+      var alpha, blue, colorObject, fullColor, green, hex, red, shortColor, _ref1;
+      hex = function(code) {
+        return parseInt(code, 16);
+      };
+      if (shortColor = color.match(/^#([0-9a-f]{3})$/i)) {
+        colorObject = {
+          red: hex(shortColor[1].charAt(0)) * 0x11,
+          green: hex(shortColor[1].charAt(1)) * 0x11,
+          blue: hex(shortColor[1].charAt(2)) * 0x11,
+          alpha: 1
+        };
+        return colorObject;
+      }
+      if (fullColor = color.match(/^#([0-9a-f]{6})$/i)) {
+        colorObject = {
+          red: hex(fullColor[1].substr(0, 2)),
+          green: hex(fullColor[1].substr(2, 2)),
+          blue: hex(fullColor[1].substr(4, 2)),
+          alpha: 1
+        };
+        return colorObject;
+      }
+      _ref1 = color.split(",").map(function(val) {
+        return parseFloat(val.trim());
+      }), red = _ref1[0], green = _ref1[1], blue = _ref1[2], alpha = _ref1[3];
+      if (red >= 0 && green >= 0 && blue >= 0) {
+        if (alpha === NaN) {
+          alpha = 1;
+        }
+        if (alpha === void 0) {
+          alpha = 1;
+        }
+        return {
+          red: red,
+          green: green,
+          blue: blue,
+          alpha: alpha
+        };
+      }
+      return {
+        raw: color
+      };
+    },
+    inverseColor: function(color) {
+      var blue, brightness, green, red;
+      if (color.raw) {
+        return "#fff";
+      }
+      red = color.red, green = color.green, blue = color.blue;
+      brightness = Math.sqrt(red * red * .241 + green * green * .691 + blue * blue * .068);
+      if (brightness < 130) {
+        return "#fff";
+      } else {
+        return "#000";
+      }
+    },
+    activate: function(state) {
+      return atom.workspace.observeTextEditors((function(_this) {
+        return function(editor) {
+          var compile;
+          compile = _this.compile.bind(_this, editor);
+          editor.onDidStopChanging(compile);
+          return _.defer(compile);
+        };
+      })(this));
+    },
+    compile: function(_editor, context) {
+      var fill, line, shadow, size, view;
+      view = $(atom.views.getView(_editor));
+      shadow = $(view[0].shadowRoot);
+      fill = atom.config.get("webbox-color.fillColorAsBackground");
+      size = atom.config.get("editor.fontSize");
+      line = atom.config.get("editor.lineHeight");
+      return shadow.find(".source.css .color, .source.stylus .color, .source.less .color, .source.sass .color, .source.velocity .quoted").each((function(_this) {
+        return function(i, el) {
+          var $el, bgc, color, colorBox, curLine, text;
+          $el = $(el);
+          text = $el.text().trim().replace(/\"|\,/gi, "");
+          color = _this.parseColor(text);
+          if (!color.raw) {
+            bgc = "rgba(" + color.red + ", " + color.green + ", " + color.blue + ", " + color.alpha + ")";
+          } else {
+            bgc = color.raw;
+          }
+          if ($el.data("color") !== bgc) {
+            $el.data("color", bgc);
+            if (fill) {
+              $el.addClass("color-box on-background");
+              return $el.css({
+                backgroundColor: bgc,
+                color: _this.inverseColor(color)
+              });
+            } else {
+              curLine = $el.closest(".line");
+              colorBox = $('<span/>');
+              colorBox.addClass("color-box on-line-end");
+              colorBox.css({
+                backgroundColor: bgc,
+                width: (size * line) - 4,
+                height: (size * line) - 4
+              });
+              return curLine.append(colorBox);
+            }
+          }
+        };
+      })(this));
+    }
+  };
+
+}).call(this);
+
+//# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAiZmlsZSI6ICIiLAogICJzb3VyY2VSb290IjogIiIsCiAgInNvdXJjZXMiOiBbCiAgICAiL1VzZXJzL3ZpdGFtaW5hZnJvbnQvLmF0b20vcGFja2FnZXMvd2ViYm94LWNvbG9yL2xpYi9jb2xvci5jb2ZmZWUiCiAgXSwKICAibmFtZXMiOiBbXSwKICAibWFwcGluZ3MiOiAiQUFBQTtBQUFBLE1BQUEsZ0NBQUE7O0FBQUEsRUFBQSxPQUE0QixPQUFBLENBQVEsc0JBQVIsQ0FBNUIsRUFBQyxTQUFBLENBQUQsRUFBSSxzQkFBQSxjQUFKLEVBQW9CLFlBQUEsSUFBcEIsQ0FBQTs7QUFBQSxFQUNBLENBQUEsR0FBSSxPQUFBLENBQVEsaUJBQVIsQ0FESixDQUFBOztBQUFBLEVBR0EsTUFBTSxDQUFDLE9BQVAsR0FFRTtBQUFBLElBQUEsTUFBQSxFQUNFO0FBQUEsTUFBQSxxQkFBQSxFQUNFO0FBQUEsUUFBQSxJQUFBLEVBQU0sU0FBTjtBQUFBLFFBQ0EsU0FBQSxFQUFTLElBRFQ7T0FERjtLQURGO0FBQUEsSUFLQSxVQUFBLEVBQVksU0FBQyxLQUFELEdBQUE7QUFFVixVQUFBLHVFQUFBO0FBQUEsTUFBQSxHQUFBLEdBQU0sU0FBQyxJQUFELEdBQUE7ZUFBVSxRQUFBLENBQVMsSUFBVCxFQUFlLEVBQWYsRUFBVjtNQUFBLENBQU4sQ0FBQTtBQUVBLE1BQUEsSUFBRyxVQUFBLEdBQWEsS0FBSyxDQUFDLEtBQU4sQ0FBWSxtQkFBWixDQUFoQjtBQUNFLFFBQUEsV0FBQSxHQUNFO0FBQUEsVUFBQSxHQUFBLEVBQU8sR0FBQSxDQUFJLFVBQVcsQ0FBQSxDQUFBLENBQUUsQ0FBQyxNQUFkLENBQXFCLENBQXJCLENBQUosQ0FBQSxHQUErQixJQUF0QztBQUFBLFVBQ0EsS0FBQSxFQUFPLEdBQUEsQ0FBSSxVQUFXLENBQUEsQ0FBQSxDQUFFLENBQUMsTUFBZCxDQUFxQixDQUFyQixDQUFKLENBQUEsR0FBK0IsSUFEdEM7QUFBQSxVQUVBLElBQUEsRUFBTyxHQUFBLENBQUksVUFB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
+
+//# sourceURL=/Users/vitaminafront/.atom/packages/webbox-color/lib/color.coffee

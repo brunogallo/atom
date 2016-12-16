@@ -1,0 +1,97 @@
+(function() {
+  var WSHandler, temp;
+
+  temp = require('temp');
+
+  module.exports = WSHandler = (function() {
+    function WSHandler(ws) {
+      this.ws = ws;
+      this.closed = false;
+      this.ws.on('message', (function(_this) {
+        return function(message) {
+          message = JSON.parse(message);
+          if (_this[message.type]) {
+            return _this[message.type](message.payload);
+          }
+        };
+      })(this));
+      this.ws.on('close', (function(_this) {
+        return function() {
+          _this.closed = true;
+          if (_this.changeSubscription) {
+            _this.changeSubscription.dispose();
+          }
+          if (_this.changeSubscription) {
+            return _this.destroySubscription.dispose();
+          }
+        };
+      })(this));
+    }
+
+    WSHandler.prototype.register = function(data) {
+      var filepath;
+      filepath = this.getFile(data);
+      return atom.workspace.open(filepath).then((function(_this) {
+        return function(editor) {
+          return _this.initEditor(editor, data);
+        };
+      })(this));
+    };
+
+    WSHandler.prototype.getFile = function(data) {
+      var extension, _ref;
+      extension = (_ref = data.extension) != null ? _ref : '.md';
+      return temp.path({
+        prefix: "" + data.title + "-",
+        suffix: extension
+      });
+    };
+
+    WSHandler.prototype.initEditor = function(editor, data) {
+      this.editor = editor;
+      this.updateText(data);
+      this.destroySubscription = this.editor.onDidDestroy((function(_this) {
+        return function() {
+          if (!_this.closed) {
+            return _this.ws.close();
+          }
+        };
+      })(this));
+      return this.changeSubscription = this.editor.onDidChange((function(_this) {
+        return function() {
+          if (!(_this.closed || _this.ignoreChanges)) {
+            _this.sendChanges();
+          }
+          return _this.ignoreChanges = false;
+        };
+      })(this));
+    };
+
+    WSHandler.prototype.sendChanges = function() {
+      var message;
+      message = {
+        type: 'updateText',
+        payload: {
+          text: this.editor.getBuffer().lines.join('\n')
+        }
+      };
+      return this.ws.send(JSON.stringify(message));
+    };
+
+    WSHandler.prototype.updateText = function(data) {
+      if (!(this.editor && this.editor.isAlive())) {
+        return;
+      }
+      this.ignoreChanges = true;
+      return this.editor.setText(data.text);
+    };
+
+    return WSHandler;
+
+  })();
+
+}).call(this);
+
+//# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAiZmlsZSI6ICIiLAogICJzb3VyY2VSb290IjogIiIsCiAgInNvdXJjZXMiOiBbCiAgICAiL1VzZXJzL3ZpdGFtaW5hZnJvbnQvLmF0b20vcGFja2FnZXMvYXRvbWljLWNocm9tZS9saWIvd3MtaGFuZGxlci5jb2ZmZWUiCiAgXSwKICAibmFtZXMiOiBbXSwKICAibWFwcGluZ3MiOiAiQUFBQTtBQUFBLE1BQUEsZUFBQTs7QUFBQSxFQUFBLElBQUEsR0FBTyxPQUFBLENBQVEsTUFBUixDQUFQLENBQUE7O0FBQUEsRUFFQSxNQUFNLENBQUMsT0FBUCxHQUF1QjtBQUNSLElBQUEsbUJBQUUsRUFBRixHQUFBO0FBQ1gsTUFEWSxJQUFDLENBQUEsS0FBQSxFQUNiLENBQUE7QUFBQSxNQUFBLElBQUMsQ0FBQSxNQUFELEdBQVUsS0FBVixDQUFBO0FBQUEsTUFDQSxJQUFDLENBQUEsRUFBRSxDQUFDLEVBQUosQ0FBTyxTQUFQLEVBQWtCLENBQUEsU0FBQSxLQUFBLEdBQUE7ZUFBQSxTQUFDLE9BQUQsR0FBQTtBQUNoQixVQUFBLE9BQUEsR0FBVSxJQUFJLENBQUMsS0FBTCxDQUFXLE9BQVgsQ0FBVixDQUFBO0FBQ0EsVUFBQSxJQUF1QyxLQUFLLENBQUEsT0FBTyxDQUFDLElBQVIsQ0FBNUM7bUJBQUEsS0FBSyxDQUFBLE9BQU8sQ0FBQyxJQUFSLENBQUwsQ0FBbUIsT0FBTyxDQUFDLE9BQTNCLEVBQUE7V0FGZ0I7UUFBQSxFQUFBO01BQUEsQ0FBQSxDQUFBLENBQUEsSUFBQSxDQUFsQixDQURBLENBQUE7QUFBQSxNQUlBLElBQUMsQ0FBQSxFQUFFLENBQUMsRUFBSixDQUFPLE9BQVAsRUFBZ0IsQ0FBQSxTQUFBLEtBQUEsR0FBQTtlQUFBLFNBQUEsR0FBQTtBQUNkLFVBQUEsS0FBQyxDQUFBLE1BQUQsR0FBVSxJQUFWLENBQUE7QUFDQSxVQUFBLElBQWlDLEtBQUMsQ0FBQSxrQkFBbEM7QUFBQSxZQUFBLEtBQUMsQ0FBQSxrQkFBa0IsQ0FBQyxPQUFwQixDQUFBLENBQUEs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
+
+//# sourceURL=/Users/vitaminafront/.atom/packages/atomic-chrome/lib/ws-handler.coffee
